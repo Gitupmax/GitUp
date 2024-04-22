@@ -1,0 +1,45 @@
+% Define parameters
+L = 1; % Length of the plate (m)
+N = 50; % Number of grid points
+dx = L / (N - 1); % Grid spacing
+dt = 0.01; % Time step
+t_end = 1; % End time of simulation
+alpha = 0.1; % Thermal diffusivity
+
+% Initialize temperature matrix
+T = zeros(N, N);
+
+% Set boundary conditions
+T(:, 1) = 100; % Left boundary
+T(:, N) = 100; % Right boundary
+T(1, :) = 100; % Top boundary
+T(N, :) = 100; % Bottom boundary
+T(floor(N/2), floor(N/2)) = -10; % Center cooling point
+
+% Main simulation loop
+t = 0;
+while t < t_end
+    % Compute temperature gradient
+    dT = del2(T) * alpha * dt / dx^2;
+    
+    % Update temperature
+    T = T + dT;
+    
+    % Apply boundary conditions
+    T(:, 1) = 100; % Left boundary
+    T(:, N) = 100; % Right boundary
+    T(1, :) = 100; % Top boundary
+    T(N, :) = 100; % Bottom boundary
+    T(floor(N/2), floor(N/2)) = -10; % Center cooling point
+    
+    % Increment time
+    t = t + dt;
+    
+    % Plot temperature
+    imagesc(T);
+    colorbar;
+    title(['Time: ', num2str(t)]);
+    xlabel('X');
+    ylabel('Y');
+    drawnow;
+end
