@@ -1,0 +1,23 @@
+clc;close all; clear all;
+x = linspace(0,10,50);
+y = exp(0.2*x)-exp(-0.8*x)-2;
+x1 =0;
+xu=4;
+err= 0.01;
+ iter = 1;
+ while abs(xu-x1)> err
+     xr = (x1+xu)/2;
+     y1 = exp(0.2*x1)-exp(-0.8*x1)-2;
+     yr = exp(0.2*xr)-exp(-0.8*xr)-2;
+     yu = exp(0.2*xu)-exp(-0.8*xu)-2;
+    if y1*yr <0
+        xu=xr;
+    else
+        x1=xr;
+    end
+    iter = iter+1;
+ end
+ fprintf('root of equation = %f', xr);
+ plot(x,y);
+ hold on;
+ hline = refline ([0 0]);
